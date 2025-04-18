@@ -1,18 +1,36 @@
 import logging
 import os
-from typing import Any, Dict
+from dataclasses import dataclass
+from typing import Any, Dict, Literal, Optional
 
-from elasticsearch import Elasticsearch
 from fastmcp import FastMCP
 
 from .es_client import ElasticsearchClient
 
 
+@dataclass
+class ElasticsearchMCPServerConfig:
+    transport: Literal["stdio", "sse"] = "sse"
+    sse_addr: str = os.getenv("SSE_ADDR", "localhost:8000")
+    es_url: str = os.getenv("ES_URL", "http://localhost:9200")
+    es_username: Optional[str] = os.getenv("ES_USERNAME")
+    es_password: Optional[str] = os.getenv("ES_PASSWORD")
+
+    def __post_init__(self):
+        self.sse_host = self.sse_addr.split(":")[0]
+        self.sse_port = (
+            int(self.sse_addr.split(":")[1]) if ":" in self.sse_addr else 8000
+        )
+
+
 class ElasticsearchMCPServer:
-    def __init__(self):
+    def __init__(self, config: ElasticsearchMCPServerConfig):
+        self.config = config
         self.logger = self._setup_logger()
         self.es_client = ElasticsearchClient(self.logger).es_client
-        self.server = FastMCP(name="ElasticsearchMCPServer")
+        self.server = FastMCP(
+            name="ElasticsearchMCPServer", host=config.sse_addr, port=config.sse_port
+        )
         self._setup_handlers()
 
     def _setup_logger(self) -> logging.Logger:
@@ -110,5 +128,9 @@ class ElasticsearchMCPServer:
 
     def start(self):
         """Start the MCP server."""
-        self.logger.info("Starting Elasticsearch 7.x MCP Server")
-        self.server.run()
+        self.logger.info("Starting Elasticsearch MCP server...")
+        if self.config.transport == "stdio":
+            self.logger.info("MCP server mode: %s", self.config.transport)
+        else:
+            self.logger.info("MCP server SSE address: %s", self.config.sse_addr)
+        self.server.run(transport=self.config.transport)

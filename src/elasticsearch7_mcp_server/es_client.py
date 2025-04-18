@@ -1,5 +1,3 @@
-import inspect
-import json
 import logging
 import os
 import warnings
@@ -163,10 +161,10 @@ class ElasticsearchClient:
         # Load environment variables from .env file
         load_dotenv()
         config = {
-            "host": os.getenv("ELASTIC_HOST", "http://localhost:9200"),
-            "username": os.getenv("ELASTIC_USERNAME"),
-            "password": os.getenv("ELASTIC_PASSWORD"),
-            "timeout": int(os.getenv("ELASTIC_TIMEOUT", "30")),
+            "host": os.getenv("ES_URL", "http://localhost:9200"),
+            "username": os.getenv("ES_USERNAME"),
+            "password": os.getenv("ES_PASSWORD"),
+            "timeout": int(os.getenv("ES_TIMEOUT", "30")),
         }
 
         if not all([config["username"], config["password"]]):
