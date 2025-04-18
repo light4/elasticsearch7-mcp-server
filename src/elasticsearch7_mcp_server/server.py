@@ -29,7 +29,7 @@ class ElasticsearchMCPServer:
         self.logger = self._setup_logger()
         self.es_client = ElasticsearchClient(self.logger).es_client
         self.server = FastMCP(
-            name="ElasticsearchMCPServer", host=config.sse_addr, port=config.sse_port
+            name="ElasticsearchMCPServer", host=config.sse_host, port=config.sse_port
         )
         self._setup_handlers()
 
