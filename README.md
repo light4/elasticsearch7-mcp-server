@@ -31,6 +31,7 @@ npx -y @smithery/cli install @imlewc/elasticsearch7-mcp-server --client claude
 ```
 
 ### Manual Installation
+
 ```bash
 pip install -e .
 ```
@@ -83,6 +84,7 @@ Currently supported MCP methods:
 ### Search API Examples
 
 #### Basic Search
+
 ```python
 # Basic search
 search_response = client.call("es-search", {
@@ -98,6 +100,7 @@ search_response = client.call("es-search", {
 ```
 
 #### Aggregation Query
+
 ```python
 # Aggregation query
 agg_response = client.call("es-search", {
@@ -120,6 +123,7 @@ agg_response = client.call("es-search", {
 ```
 
 #### Advanced Search
+
 ```python
 # Advanced search with highlighting, sorting, and filtering
 advanced_response = client.call("es-search", {
@@ -157,4 +161,4 @@ advanced_response = client.call("es-search", {
 
 [License in LICENSE file]
 
-*[中文文档](README-cn.md)*
+_[中文文档](README-cn.md)_

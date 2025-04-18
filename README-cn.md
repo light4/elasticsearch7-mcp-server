@@ -68,6 +68,7 @@ print(response)  # {"success": true}
 ### 搜索 API 示例
 
 #### 基本搜索
+
 ```python
 # 基本搜索
 search_response = client.call("es-search", {
@@ -83,6 +84,7 @@ search_response = client.call("es-search", {
 ```
 
 #### 聚合查询
+
 ```python
 # 聚合查询
 agg_response = client.call("es-search", {
@@ -105,6 +107,7 @@ agg_response = client.call("es-search", {
 ```
 
 #### 高级搜索
+
 ```python
 # 带有高亮、排序和过滤的高级搜索
 advanced_response = client.call("es-search", {
@@ -140,4 +143,4 @@ advanced_response = client.call("es-search", {
 
 ## 许可
 
-[LICENSE 文件中的许可证] 
+[LICENSE 文件中的许可证]
